@@ -27,4 +27,5 @@ namespace CarRentalSystem.Domain.Entities;
         public string DriversLicenseNumber { get; set; } = "";
 
         public UserRole Role { get; set; } = UserRole.Customer;
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }

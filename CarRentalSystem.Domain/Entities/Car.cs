@@ -14,5 +14,5 @@ public class Car
         public decimal DailyRate { get; set; }
 
         public bool IsAvailable { get; set; }
-    
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
