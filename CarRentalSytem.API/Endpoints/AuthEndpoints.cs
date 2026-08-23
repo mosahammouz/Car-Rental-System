@@ -18,16 +18,15 @@ public static class AuthEndpoints
             });
         });
 
-        auth.MapPost("/login", async (LoginRequest request, IAuthService authService) =>
+        auth.MapPost("/login", async (
+            LoginRequest request,
+            IAuthService authService) =>
         {
             try
             {
-                await authService.LoginAsync(request);
+                var response = await authService.LoginAsync(request); // login response type
 
-                return Results.Ok(new
-                {
-                    message = "Login successful."
-                });
+                return Results.Ok(response);
             }
             catch (UnauthorizedAccessException)
             {
