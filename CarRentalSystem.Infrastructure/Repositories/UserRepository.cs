@@ -31,6 +31,7 @@ public class UserRepository : IUserRepository
     public async Task AddAsync(User user)
     {
         await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync(); // save to the db
     }
 
     public async Task<bool> UpdateAsync(User user)
