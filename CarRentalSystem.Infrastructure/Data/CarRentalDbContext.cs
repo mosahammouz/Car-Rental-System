@@ -1,4 +1,5 @@
-using CarRentalSystem.Domain.Entities; // reference to Domain
+using CarRentalSystem.Domain.Entities;
+using CarRentalSystem.Infrastructure.Seeding; // reference to Domain
 using Microsoft.EntityFrameworkCore;
 namespace CarRentalSystem.Infrastructure.Data;
 
@@ -20,6 +21,9 @@ public class CarRentalDbContext : DbContext
   modelBuilder.Entity<Car>()
    .Property(c => c.DailyRate)
    .HasPrecision(18, 2);
+
+  modelBuilder.Entity<Car>()
+   .HasData(CarSeed.GetCars());
 
   modelBuilder.Entity<Reservation>()
    .Property(r => r.TotalPrice)
