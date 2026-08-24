@@ -43,7 +43,7 @@ function normalizeCar(raw, index) {
 
 export async function searchCars(filters = {}, { signal } = {}) {
   const data = await apiRequest(
-      `/api/cars/available${buildCarsQuery(filters)}`,
+      `/api/cars/search${buildCarsQuery(filters)}`,
       { authenticated: true, signal }
   )
 
