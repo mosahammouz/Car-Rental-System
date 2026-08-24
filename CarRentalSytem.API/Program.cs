@@ -16,12 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CarRentalDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
+
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
-
 
 var jwtSettings = builder.Configuration
     .GetSection("Jwt")
@@ -46,21 +47,36 @@ builder.Services
         };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// CORS
+app.UseCors("frontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapAuthEndpoints();
+app.MapAuthEndpoints(); // function
+app.MapCarEndpoints(); // function
 
 app.MapGet("/", () => "hello world");
+
 app.MapGet("/api/test", () =>
     {
         return Results.Ok("You are authenticated!");
     })
     .RequireAuthorization();
+
 app.Run();

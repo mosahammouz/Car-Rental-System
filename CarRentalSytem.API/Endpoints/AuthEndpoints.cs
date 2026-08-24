@@ -24,7 +24,7 @@ public static class AuthEndpoints
         {
             try
             {
-                var response = await authService.LoginAsync(request); // login response type
+                var response = await authService.LoginAsync(request); // login response type contains only token string
 
                 return Results.Ok(response);
             }
