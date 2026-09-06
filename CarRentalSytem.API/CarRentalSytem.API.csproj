@@ -13,10 +13,12 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CarRentalSystem.Infrastructure\CarRentalSystem.Infrastructure.csproj" />
+        <ProjectReference Include="..\CarRentalSystem.Application\CarRentalSystem.Application.csproj" />
     </ItemGroup>
 
 </Project>

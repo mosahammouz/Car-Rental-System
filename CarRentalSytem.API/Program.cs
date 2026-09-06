@@ -9,11 +9,12 @@ using CarRentalSytem.API.Endpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register to di container
-builder.Services.AddDbContext<CarRentalDbContext>(options =>
+builder.Services.AddDbContext<CarRentalDbContext>(options => // scoped by default
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -52,7 +53,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("frontend", policy =>
     {
         policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins("http://localhost:5173") // front url
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -61,9 +62,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-
+app.UseHttpMetrics();
+app.MapMetrics();
 // CORS
-app.UseCors("frontend");
+app.UseCors("frontend"); // to accept request from front securely
 
 app.UseAuthentication();
 app.UseAuthorization();
